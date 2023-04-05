@@ -1,22 +1,33 @@
 from PIL import Image
+import numpy as np
 
 im = Image.open("240sx.jpg")
 
-pixels_data = im.getdata()
+load = im.load()
 
-pixels_matrix = list(pixels_data)
+pixels = []
 
-def rbg_to_brightness(pixel_matrix:list):
-    for height in range(len(pixel_matrix)):
-        for width in range(len(pixel_matrix[height])):
-            pixel_rgb = pixel_matrix[height][width]
-            red = pixel_rgb[0]
-            green = pixel_rgb[1]
-            blue = pixel_rgb[2]
-            pixel_brightness = (max(red, green, blue) + min(red, green, bl)) / 2
-            pixel_matrix[height][width] = pixel_brightness
-            
-            
-pixels_matrix = rbg_to_brightness(pixels_matrix)
+pixels_matrix = []
+for i in range(im.height):
+    rows = []
+    for j in range(im.width):
+        coordinate = x,y = j,i
+        each_pixel = im.getpixel(coordinate)
+        rows.append(each_pixel)
+    pixels_matrix.append(rows)
 
-print(pixels_matrix)
+for i in range(len(pixels_matrix)):
+    for j in range(len(pixels_matrix[i])):
+        each_pixel = pixels_matrix[i][j]
+        r,g,b = each_pixel
+        brightness = int((r + g + b)/3)
+        pixels_matrix[i][j] = brightness
+
+
+ascii_symbols = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
+
+for i in range(len(pixels_matrix)):
+    for j in range(len(pixels_matrix[i])):
+        each_pixel = pixels_matrix[i][j]
+        print(ascii_symbols[int(each_pixel/4)], end="")
+    print()
