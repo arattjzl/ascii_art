@@ -1,0 +1,5 @@
+opencv-python
+numpy
+mediapipe
+dlib
+PySide6_Essentials
